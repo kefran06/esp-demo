@@ -1,4 +1,5 @@
 use core::convert::TryInto;
+use embedded_svc::mqtt::client::QoS;
 
 use embedded_svc::wifi::{AuthMethod, ClientConfiguration, Configuration};
 
@@ -8,11 +9,13 @@ use esp_idf_svc::log::EspLogger;
 use esp_idf_svc::timer::EspTaskTimerService;
 use esp_idf_svc::wifi::{AsyncWifi, EspWifi};
 use esp_idf_svc::{eventloop::EspSystemEventLoop, nvs::EspDefaultNvsPartition};
+use esp_idf_svc::mqtt::client::{EspMqttClient, MqttClientConfiguration};
 
 use log::info;
 
 const SSID: &str = env!("WIFI_SSID");
 const PASSWORD: &str = env!("WIFI_PASS");
+const SAS_IOT_HUB: &str = env!("SAS_IOT_HUB");
 
 fn main() -> anyhow::Result<()> {
     esp_idf_svc::sys::link_patches();
@@ -34,6 +37,18 @@ fn main() -> anyhow::Result<()> {
     let ip_info = wifi.wifi().sta_netif().get_ip_info()?;
 
     info!("Wifi DHCP info: {:?}", ip_info);
+
+    let mqtt_config = MqttClientConfiguration {
+        client_id: Option::from("test-frank"),
+        username: Option::from("iot-pulse-dev-01.azure-devices.net/test-frank/?api-version=2021-04-12"),
+        password: Option::from(SAS_IOT_HUB),
+        ..Default::default()
+    };
+
+    // Create Client Instance and Define Behaviour on Event
+    let (mut client, mut connection) = EspMqttClient::new("mqtts://iot-pulse-dev-01.azure-devices.net:8883", &mqtt_config)?;
+
+    info!("mqtt client is up");
 
     info!("Shutting down in 5s...");
 
