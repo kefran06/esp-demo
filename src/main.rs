@@ -46,13 +46,14 @@ fn main() -> anyhow::Result<()> {
     };
 
     // Create Client Instance and Define Behaviour on Event
-    let (mut client, mut connection) = EspMqttClient::new("mqtts://iot-pulse-dev-01.azure-devices.net:8883", &mqtt_config)?;
+    let (mut client, _) = EspMqttClient::new("mqtts://iot-pulse-dev-01.azure-devices.net:8883", &mqtt_config)?;
+    client.subscribe("devices/test-frank/messages/devicebound/#", QoS::AtLeastOnce)?;
 
     info!("mqtt client is up");
 
-    info!("Shutting down in 5s...");
+    info!("Shutting down in 60s...");
 
-    std::thread::sleep(core::time::Duration::from_secs(5));
+    std::thread::sleep(core::time::Duration::from_secs(60));
 
     Ok(())
 }
