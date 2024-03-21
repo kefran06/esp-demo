@@ -15,6 +15,9 @@ jobs:
   rust-checks:
     name: Rust Checks
     runs-on: ubuntu-latest
+    env:
+      WIFI_SSID: todo
+      WIFI_PASS: todo
     strategy:
       fail-fast: false
       matrix:
