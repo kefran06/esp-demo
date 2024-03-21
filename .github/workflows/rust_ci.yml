@@ -18,6 +18,7 @@ jobs:
     env:
       WIFI_SSID: todo
       WIFI_PASS: todo
+      SAS_IOT_HUB: todo
     strategy:
       fail-fast: false
       matrix:
