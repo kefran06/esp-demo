@@ -29,7 +29,7 @@ esp-idf-svc = { version = "0.48.1", default-features = false }
 esp-idf-hal = { version = "0.43.1", default-features = false }
 embedded-svc = { version = "0.27.1", default-features = false }
 anyhow= { version = "1.0.81"}
-
+rumqttc =  { version = "0.24.0", default-features = false, features = ["use-native-tls"] }
 
 [build-dependencies]
 embuild = "0.31.3"
