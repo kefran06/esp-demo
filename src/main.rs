@@ -2,6 +2,7 @@ use core::convert::TryInto;
 use embedded_svc::mqtt::client::QoS;
 
 use embedded_svc::wifi::{AuthMethod, ClientConfiguration, Configuration};
+use esp_idf_hal::sys::esp_crt_bundle_attach;
 
 use esp_idf_svc::hal::prelude::Peripherals;
 use esp_idf_svc::hal::task::block_on;
@@ -42,6 +43,7 @@ fn main() -> anyhow::Result<()> {
         client_id: Option::from("test-frank"),
         username: Option::from("iot-pulse-dev-01.azure-devices.net/test-frank/?api-version=2021-04-12"),
         password: Option::from(SAS_IOT_HUB),
+        crt_bundle_attach: Some(esp_crt_bundle_attach),
         ..Default::default()
     };
 
